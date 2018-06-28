@@ -10,18 +10,24 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 @ServerEndpoint("/pingpong")
 public class PingPongEndpoint {
     private Logger log = LoggerFactory.getLogger(PingPongEndpoint.class);
+    private static Set<Session> sessions = new HashSet<>();
+
     @OnOpen
     public void open(Session session) {
         log.info(String.format("websocket session %s opened", session.getId()));
+        PingPongEndpoint.sessions.add(session);
     }
 
     @OnClose
     public void close(Session session) {
         log.info(String.format("websocket session %s closed", session.getId()));
+        PingPongEndpoint.sessions.remove(session);
     }
 
     @OnError
@@ -34,6 +40,12 @@ public class PingPongEndpoint {
         if (!message.equals("ping")) {
             throw new IllegalArgumentException("Invalid message received: " + message);
         }
-        session.getBasicRemote().sendText("pong");
+        session.getBasicRemote().sendText(String.format("pong to %s", session.getId()));
+
+        for (Session sess: PingPongEndpoint.sessions) {
+            if (sess.getId() != session.getId()) {
+                sess.getBasicRemote().sendText(String.format("pong to %s", session.getId()));
+            }
+        }
     }
 }
