@@ -39,9 +39,8 @@ dependencies {
 task wrapper(type: Wrapper) {
     gradleVersion ="$gradle_version"
 }
-task stage(type:Exec, dependsOn:installDist) {
-    commandLine './cli/dev_run.sh'
-}
+task stage(dependsOn: ['build', 'clean', 'installDist'])
+
 task dockerBuild(type:Exec, dependsOn:build) {
     commandLine './cli/build.sh', 'wehack:latest'
 }
