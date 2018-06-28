@@ -1,0 +1,45 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'info.solidsoft.pitest'
+apply from: file("gradle/dependency-versions.gradle")
+// Use Java 8 by default
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+buildscript {
+    repositories {
+         mavenCentral()
+         jcenter()
+    }
+    dependencies {
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1'
+        classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.11'
+    }
+}
+pitest {
+    targetClasses = ['com.wepay.wehack.*']
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+}
+// The main class of the application
+mainClassName = 'com.wepay.app.MainApp'
+repositories {
+    mavenCentral()
+    jcenter()
+}
+dependencies {
+    compile group: 'io.dropwizard', name: 'dropwizard-core', version:"$dropwizard_version"
+}
+task wrapper(type: Wrapper) {
+    gradleVersion ="$gradle_version"
+}
+task runLocal(type:Exec, dependsOn:installDist) {
+    commandLine './cli/dev_run.sh'
+}
+task dockerBuild(type:Exec, dependsOn:build) {
+    commandLine './cli/build.sh', 'wehack:latest'
+}

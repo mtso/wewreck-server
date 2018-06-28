@@ -1,0 +1,8 @@
+service: wehack
+team-name: API
+slingshot: 5.4.0-3-4f68bc438e
+base-project: 2.4.0
+framework: Dropwizard
+language: java
+service-configs: 2018Jun271713
+created time: 2018/06/28 21:33:40

@@ -1,0 +1,6 @@
+ext{
+    dropwizard_version = '1.2.2'
+    jersey_test_framework_version = '2.23.1'
+    gradle_version = '2.14' 
+    commons_version = '6.2.2'
+}

@@ -1,0 +1,17 @@
+#%RAML 1.0
+title: Healthcheck
+version: 0.1.0
+baseUri: https://{environment}-oryx.wepay-inc.com
+
+/healthcheck:
+  get:
+    body:
+      application/json:
+        schema: !include post.req.schema.json
+        example: !include post.req.example.1.json
+    responses:
+      200:
+        body:
+          application/json:
+            schema: !include post.resp.200.schema.json
+            example: !include post.resp.200.example.1.json

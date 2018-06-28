@@ -1,0 +1,21 @@
+server:
+  requestLog:
+    appenders:
+    - type: console
+      logFormat: '%h %l %u [%t] "%r" %s %b "%i{Referer}" "%i{User-agent}" "%i{X-Forwarded-For}"'
+    - type: file
+      currentLogFilename: /tmp/wehack/logs/access.log
+      logFormat: '%h %l %u [%t] "%r" %s %b "%i{Referer}" "%i{User-agent}" "%i{X-Forwarded-For}"'
+      archivedLogFilenamePattern: /tmp/wehack/logs/access-%d.log.gz
+      archivedFileCount: 5
+      timeZone: UTC
+  applicationConnectors:
+  - type: http
+    port: 8000
+logging:
+  level: INFO
+  appenders:
+  - type: console
+    threshold: INFO
+    target: stdout
+    logFormat: '%thread [%date{ISO8601, UTC}] %-5level %logger{5} - %msg%n'
