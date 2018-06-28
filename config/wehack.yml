@@ -11,7 +11,7 @@ server:
       timeZone: UTC
   applicationConnectors:
   - type: http
-    port: 8000
+    port: ${PORT}
 logging:
   level: INFO
   appenders:
