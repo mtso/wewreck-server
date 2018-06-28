@@ -39,7 +39,7 @@ dependencies {
 task wrapper(type: Wrapper) {
     gradleVersion ="$gradle_version"
 }
-task runLocal(type:Exec, dependsOn:installDist) {
+task stage(type:Exec, dependsOn:installDist) {
     commandLine './cli/dev_run.sh'
 }
 task dockerBuild(type:Exec, dependsOn:build) {
