@@ -10,13 +10,16 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @ServerEndpoint("/pingpong")
 public class PingPongEndpoint {
-    private Logger log = LoggerFactory.getLogger(PingPongEndpoint.class);
+    private static Logger log = LoggerFactory.getLogger(PingPongEndpoint.class);
     private static Set<Session> sessions = new HashSet<>();
+    private static Map<String, Session> merchants = new HashMap<>();
 
     @OnOpen
     public void open(Session session) {
@@ -45,6 +48,17 @@ public class PingPongEndpoint {
         for (Session sess: PingPongEndpoint.sessions) {
             if (sess.getId() != session.getId()) {
                 sess.getBasicRemote().sendText(String.format("pong to %s", session.getId()));
+            }
+        }
+    }
+
+    public static void onPaymentCreated(String merchantId, String message) {
+        if (merchants.containsKey(merchantId)) {
+            Session session = merchants.get(merchantId);
+            try {
+                session.getBasicRemote().sendText(message);
+            } catch (IOException e) {
+                log.error(e.toString());
             }
         }
     }
