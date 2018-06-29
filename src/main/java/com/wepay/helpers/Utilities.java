@@ -130,7 +130,8 @@ public class Utilities {
     public static String accountCapabilitiesLookUp(String accountId) {
         final Response response =
                 webTargetBeaver
-                        .path("accounts/" + accountId + "/capabilities?is_expanded=true")
+                        .path("accounts/" + accountId + "/capabilities")
+                        .queryParam("is_expanded", "true")
                         .request()
                         .headers(headers)
                         .get();
