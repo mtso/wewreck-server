@@ -61,6 +61,7 @@ public class PaymentsEndpoint {
                 }
                 try {
                     session.getBasicRemote().sendText(message);
+                    log.info("Sent message to websocket session ID: " + session.getId());
                 } catch (IOException e) {
                     log.error(e.toString());
                 }
