@@ -59,6 +59,7 @@ public class WebHooks {
             record.set("payment", paymentAPIRecord);
             record.set("topic", paymentObj.path("topic"));
             record.set("geo", geo);
+            log.info("Received payment event for: " + paymentAPIRecord.path("id").asText() + "geo info: " + geo.toString());
 
             PaymentsEndpoint.onPaymentCreated(accountId, record.toString());
         } catch (IOException e) {
@@ -91,6 +92,8 @@ public class WebHooks {
             default:
                 zip = "94063";
         }
-        return Utilities.getLatLngForZip(zip);
+        ObjectNode geo =  Utilities.getLatLngForZip(zip);
+        geo.put("zip", zip);
+        return geo;
     }
 }
