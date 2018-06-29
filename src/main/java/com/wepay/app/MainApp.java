@@ -1,5 +1,6 @@
 package com.wepay.app;
 
+import com.wepay.resource.PaymentsEndpoint;
 import com.wepay.resource.PingPongEndpoint;
 import com.wepay.resource.WebHooks;
 import io.dropwizard.websockets.WebsocketBundle;
@@ -43,5 +44,6 @@ public class MainApp extends Application<ApplicationConfiguration> {
         environment.jersey().register(new WebHooks());
 
         websocketBundle.addEndpoint(PingPongEndpoint.class);
+        websocketBundle.addEndpoint(PaymentsEndpoint.class);
     }
 }
