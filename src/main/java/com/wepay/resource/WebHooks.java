@@ -59,7 +59,7 @@ public class WebHooks {
             record.set("payment", paymentAPIRecord);
             record.set("topic", paymentObj.path("topic"));
             record.set("geo", geo);
-            log.info("Received payment event for: " + paymentAPIRecord.path("id").asText() + "geo info: " + geo.toString());
+            log.info("Received payment event for: " + paymentAPIRecord.path("id").asText() + " geo info: " + geo.toString());
 
             PaymentsEndpoint.onPaymentCreated(accountId, record.toString());
         } catch (IOException e) {
