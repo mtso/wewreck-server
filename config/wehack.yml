@@ -19,3 +19,10 @@ logging:
     threshold: INFO
     target: stdout
     logFormat: '%thread [%date{ISO8601, UTC}] %-5level %logger{5} - %msg%n'
+  - type: file
+    currentLogFilename: /tmp/logs/wehack.log
+    archivedLogFilenamePattern: logs/wehack-%d.log.gz
+    archivedFileCount: 5
+    timeZone: UTC
+    threshold: INFO
+    logFormat: '%thread [%date{ISO8601, UTC}] %-5level %logger{5} - %msg%n'

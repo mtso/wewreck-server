@@ -52,9 +52,9 @@ public class PaymentsEndpoint {
         }
     }
 
-    public static void onPaymentCreated(String merchantId, String message) {
-        if (merchants.containsKey(merchantId)) {
-            Session session = merchants.get(merchantId);
+    public static void onPaymentCreated(String accountId, String message) {
+        if (merchants.containsKey(accountId)) {
+            Session session = merchants.get(accountId);
             try {
                 session.getBasicRemote().sendText(message);
             } catch (IOException e) {
