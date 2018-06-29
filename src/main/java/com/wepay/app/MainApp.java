@@ -1,5 +1,7 @@
 package com.wepay.app;
 
+import com.wepay.resource.AccountsResource;
+import com.wepay.resource.LegalEntitiesResource;
 import com.wepay.resource.PaymentsEndpoint;
 import com.wepay.resource.PingPongEndpoint;
 import com.wepay.resource.WebHooks;
@@ -42,6 +44,8 @@ public class MainApp extends Application<ApplicationConfiguration> {
         log.info("Initializing the application: " + getName());
         log.debug("Registering resources ");
         environment.jersey().register(new WebHooks());
+        environment.jersey().register(new AccountsResource());
+        environment.jersey().register(new LegalEntitiesResource());
 
         websocketBundle.addEndpoint(PingPongEndpoint.class);
         websocketBundle.addEndpoint(PaymentsEndpoint.class);
