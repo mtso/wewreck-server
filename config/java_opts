@@ -1,1 +1,1 @@
-JAVA_OPTS=-Djava.net.useSystemProxies=true -Dnewrelic.environment=poc    
+JAVA_OPTS=-Djava.net.useSystemProxies=true -Dnewrelic.environment=poc -Dserver.port=$PORT
