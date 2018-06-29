@@ -24,6 +24,9 @@ public class PaymentsEndpoint {
     private static Map<String, Set<Session>> merchants = new HashMap<>();
     private static ObjectMapper mapper = new ObjectMapper();
 
+    // Cache the last payment data to push on new connection.
+    private static Map<String, String> cache = new HashMap<>();
+
     @OnOpen
     public void open(Session session) {
         log.info(String.format("websocket session %s opened", session.getId()));
@@ -50,9 +53,17 @@ public class PaymentsEndpoint {
         }
         merchants.get(accountId).add(session);
         session.getBasicRemote().sendText(String.format("registered %s", session.getId()));
+
+        // Push latest cached payment data for pushing to new connections.
+        if (cache.containsKey(accountId)) {
+            session.getBasicRemote().sendText(cache.get(accountId));
+        }
     }
 
     public static void onPaymentCreated(String accountId, String message) {
+        // Save the latest payment data for pushing for new connections.
+        cache.put(accountId, message);
+
         if (merchants.containsKey(accountId)) {
             Set<Session> sessions = merchants.get(accountId);
             for (Session session : sessions) {
